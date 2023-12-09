@@ -1,5 +1,7 @@
 from password import derive_key
+from cryptography.fernet import Fernet
 from fractions import Fraction
+import pathlib
 import random
 
 
@@ -42,3 +44,10 @@ class Polynomial:
                 prod *= Fraction(pairs[i][0], pairs[i][0] - pairs[j][0])
             acc += pairs[i][1] * prod
         return int(acc).to_bytes(length=44).decode('utf-8')
+
+    def encrypt_file(self, file: str, password: str) -> None:
+        clear_file = pathlib.Path(file)
+        assert clear_file.exists(), "El archivo proporcionado no existe."
+        fernet = Fernet(derive_key(password))
+        with open(clear_file.stem + '.aes', 'wb') as encrypted_file:
+            encrypted_file.write(fernet.encrypt(clear_file.read_bytes()))
