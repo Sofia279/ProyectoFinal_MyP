@@ -1,4 +1,5 @@
 from password import derive_key
+from fractions import Fraction
 import random
 
 
@@ -27,3 +28,17 @@ class Polynomial:
         with open(self.pair_file, 'w') as file:
             for point in range(1, shares + 1):
                 file.write(f"{point} {polynomial(point)}\n")
+
+    def get_password(self) -> str:
+        with open(self.pair_file, 'r') as file:
+            pairs = [(int(x), int(y))
+                     for x, y in [line.split() for line in file]]
+        acc = Fraction(0)
+        for i in range(len(pairs)):
+            prod = Fraction(1)
+            for j in range(len(pairs)):
+                if i == j:
+                    continue
+                prod *= Fraction(pairs[i][0], pairs[i][0] - pairs[j][0])
+            acc += pairs[i][1] * prod
+        return int(acc).to_bytes(length=44).decode('utf-8')
