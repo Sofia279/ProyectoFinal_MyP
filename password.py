@@ -4,8 +4,16 @@ import base64
 
 def derive_key(password: str) -> bytes:
     '''
-    Funcion que toma una contraseña como entrada y deriva una clave utilizando PBKDF2-HMAC con SHA-256. 
-    La clave derivada se codifica en base64 y se devuelve. 
+    Deriva una clave a partir de una contraseña utilizando PBKDF2-HMAC con SHA-256.
+    Parámetros:
+    - password: Contraseña de entrada para derivar la clave.
+    Resultado:
+    - Una cadena de bytes que representa la clave derivada, codificada en base64.
+    Precondiciones:
+    - Ninguna.
+    Postcondiciones:
+    - La clave derivada se obtiene utilizando el algoritmo PBKDF2-HMAC con SHA-256.
+    - La clave se codifica en base64 antes de ser devuelta.
     '''
     salt = b'\xd3\x96\xf7\xa1\x93vO\x02P4\xf6\xd6ka\x80\x84'
     kdf = PBKDF2HMAC(
