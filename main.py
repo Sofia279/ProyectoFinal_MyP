@@ -40,7 +40,9 @@ if __name__ == "__main__":
         assert args.pair_file is not None, "Especifica el nombre del archivo con al menos t de las n evaluaciones del polinomio."
         assert args.clear_file is not None, "Especifica el nombre del archivo cifrado."
 
+        password = getpass("Contraseña: ")
         p = Polynomial(args.pair_file)
-        p.decrypt(args.clear_file)
+        p.decrypt_file(args.clear_file, password) 
+        
     else:
         print("Opción no válida. Usa 'c' para cifrar o 'd' para descifrar.")
