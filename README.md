@@ -30,7 +30,8 @@ Un ejemplo de como compilarlo es el siguiente:
 ```bash
 python main.py d -p pairs.txt -f foobar.aes
 ```
-NOTA IMPORTANTE: En el repositorio no se agrego un ningun archivo de prueba para cifrar mas que el que se encuentra en la carpeta tests [pruebaTest.txt].
+NOTA IMPORTANTE: En el repositorio no se agrego ningun archivo de prueba para cifrar mas que el que se encuentra en la carpeta tests [pruebaTest.txt].
+NOTA IMPORTANTE(2): Al decifrar un archivo, se tiene que tomar en cuenta que pedrira la constraseña de nuevo. Si se ingresa la correcta, se decifrara correctamente el archivo y creara uno nuevo con el mismo nombre del original (si se quiere comprobar que funciona, se puede cifrar un archivo, borrar el mismo archivo, decifrarlo con los pares y su archivo de cirfrado y se verá que se crea un nuevo archivo con el mismo nombre del original). En caso de que no se ingrese la constraseña correcta, entonces el archivo claro original se vorrara por completo y se lanzara un error.
 ## Compilación de tests
 Se compilara con el comando "python -m unittest". Lo que hará este comando será compilar todas las pruebas que encunetre en la carpeta tests. Además, se puede compilar estando en la carpeta principal ProyectoFinal_MyP.
 ```bash
