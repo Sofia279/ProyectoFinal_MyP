@@ -7,27 +7,85 @@ import random
 
 class Polynomial:
     def __init__(self, pair_file: str) -> None:
+        '''
+        Método constructor que inicializa una instancia de la clase Polynomial con un atributo pair_file.
+        Parámetros:
+        - pair_file: Ruta al archivo donde se guardarán las evaluaciones del polinomio.
+        Resultado:
+        - Ninguno (_init_ no regresa resultados explicitos).
+        Precondiciones:
+        - Ninguno.
+        Postcondiciones:
+        - Se crea una instancia de Polynomial con el atributo pair_file inicializado.
+        '''
         self.pair_file = pair_file
 
     def write_pairs(self, shares: int, minimum: int, password: str) -> None:
+        ''' 
+        Función que genera coeficientes aleatorios para un polinomio y escribe puntos (x, f(x)) en un archivo. 
+        Este archivo se utiliza posteriormente para recuperar la contraseña.
+        Parámetros:
+        - shares: Número total de evaluaciones requeridas (n > 2).
+        - minimum : Número mínimo de puntos necesarios para descifrar (1 < t ≤ n).
+        - password: Contraseña (solicitada durante la ejecución sin hacer eco en la terminal).
+        Resultado:
+        - Ninguno
+        Precondiciones:
+        - shares > 2
+        - shares >= minimum
+        - El archivo especificado por `pair_file` debe existir.
+        Postcondiciones:
+        - Se generan coeficientes aleatorios y se escriben pares de puntos (x, f(x)) en el archivo.
+        '''
         assert shares > 2, "El número total de datos debe ser mayor a dos."
         assert shares >= minimum, "El mínimo de datos no puede ser mayor" \
             "que el número total de datos."
         coefficients: list[int] = []
 
         def generate_coefficients(key: bytes) -> None:
+            ''' 
+             Función que construye una lista de coeficientes para un polinomio. 
+             El primer coeficiente es derivado de la clave dada, y los coeficientes restantes son números 
+             aleatorios generados criptográficamente.
+             Parámetros:
+             - key: Clave utilizada para derivar el primer coeficiente.
+             Resultado:
+             - Ninguno.
+             Precondiciones:
+             - Ninguno.
+             Postcondiciones:
+             - Se generan coeficientes para un polinomio.
+             '''
             rand = random.SystemRandom()
             coefficients.append(int.from_bytes(key))
             for i in range(minimum - 1):
                 coefficients.append(rand.randint(0, 2 ** 16))
 
         def polynomial(x: int) -> int:
+            '''
+            Función que toma un valor x como entrada y devuelve el resultado de evaluar un polinomio cuyos 
+            coeficientes están definidos en la lista coefficients. 
+            Parámetros:
+            - x: Valor para evaluar el polinomio.
+            Resultado:
+            - int: Resultado de evaluar el polinomio en x.
+            Precondiciones:
+            - Ninguna
+            Postcondiciones:
+            - Ninguna
+            '''
             return sum(coefficients[i] * x ** i for i in range(minimum))
 
+        '''
+        Genera una clave derivada a partir de una contraseña utilizando PBKDF2-HMAC con SHA-256 
+        y luego utiliza esa clave derivada para generar coeficientes para un polinomio. 
+        '''
         generate_coefficients(derive_key(password))
 
-        # https://en.wikipedia.org/wiki/Shamir%27s_secret_sharing#Preparation
         with open(self.pair_file, 'w') as file:
+            '''
+            Crea un archivo y escribe pares de puntos (x, f(x)) generados por un polinomio en el rango de 1 a shares. 
+            '''
             for point in range(1, shares + 1):
                 file.write(f"{point} {polynomial(point)}\n")
 
