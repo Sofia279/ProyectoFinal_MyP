@@ -51,3 +51,10 @@ class Polynomial:
         fernet = Fernet(derive_key(password))
         with open(clear_file.stem + '.aes', 'wb') as encrypted_file:
             encrypted_file.write(fernet.encrypt(clear_file.read_bytes()))
+
+    def decrypt_file(self, file: str, password: str) -> None:
+        encrypted_file = pathlib.Path(file)
+        assert encrypted_file.exists(), "El archivo proporcionado no existe."
+        fernet = Fernet(derive_key(password))
+        with open(encrypted_file.stem + '.txt', 'wb') as clear_file:
+            clear_file.write(fernet.decrypt(encrypted_file.read_bytes()))
