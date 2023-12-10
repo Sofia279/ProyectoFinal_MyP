@@ -9,15 +9,33 @@ class Polynomial:
     def __init__(self, pair_file: str) -> None:
         '''
         Método constructor que inicializa una instancia de la clase Polynomial con un atributo pair_file.
-        return none.
+        Parámetros:
+        - pair_file: Ruta al archivo donde se guardarán las evaluaciones del polinomio.
+        Resultado:
+        - Ninguno (_init_ no regresa resultados explicitos).
+        Precondiciones:
+        - Ninguno.
+        Postcondiciones:
+        - Se crea una instancia de Polynomial con el atributo pair_file inicializado.
         '''
         self.pair_file = pair_file
 
     def write_pairs(self, shares: int, minimum: int, password: str) -> None:
         ''' 
-        Funcion que genera coeficientes aleatorios para un polinomio y escribe puntos (x, f(x)) en un archivo. 
+        Función que genera coeficientes aleatorios para un polinomio y escribe puntos (x, f(x)) en un archivo. 
         Este archivo se utiliza posteriormente para recuperar la contraseña.
-        return none.
+        Parámetros:
+        - shares: Número total de evaluaciones requeridas (n > 2).
+        - minimum : Número mínimo de puntos necesarios para descifrar (1 < t ≤ n).
+        - password: Contraseña (solicitada durante la ejecución sin hacer eco en la terminal).
+        Resultado:
+        - Ninguno
+        Precondiciones:
+        - shares > 2
+        - shares >= minimum
+        - El archivo especificado por `pair_file` debe existir.
+        Postcondiciones:
+        - Se generan coeficientes aleatorios y se escriben pares de puntos (x, f(x)) en el archivo.
         '''
         assert shares > 2, "El número total de datos debe ser mayor a dos."
         assert shares >= minimum, "El mínimo de datos no puede ser mayor" \
@@ -26,11 +44,18 @@ class Polynomial:
 
         def generate_coefficients(key: bytes) -> None:
             ''' 
-             Funcion que construye una lista de coeficientes para un polinomio. 
+             Función que construye una lista de coeficientes para un polinomio. 
              El primer coeficiente es derivado de la clave dada, y los coeficientes restantes son números 
              aleatorios generados criptográficamente.
-             return none.
-             ''' 
+             Parámetros:
+             - key: Clave utilizada para derivar el primer coeficiente.
+             Resultado:
+             - Ninguno.
+             Precondiciones:
+             - Ninguno.
+             Postcondiciones:
+             - Se generan coeficientes para un polinomio.
+             '''
             rand = random.SystemRandom()
             coefficients.append(int.from_bytes(key))
             for i in range(minimum - 1):
@@ -40,6 +65,14 @@ class Polynomial:
             '''
             Función que toma un valor x como entrada y devuelve el resultado de evaluar un polinomio cuyos 
             coeficientes están definidos en la lista coefficients. 
+            Parámetros:
+            - x: Valor para evaluar el polinomio.
+            Resultado:
+            - int: Resultado de evaluar el polinomio en x.
+            Precondiciones:
+            - Ninguna
+            Postcondiciones:
+            - Ninguna
             '''
             return sum(coefficients[i] * x ** i for i in range(minimum))
 
