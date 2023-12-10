@@ -31,8 +31,10 @@ if __name__ == "__main__":
         assert args.minimum is not None and 1 < args.minimum <= args.shares, "Especifica un número mínimo de puntos necesarios para descifrar, el cual tiene que ser mayor a 1 y menor o igual a el número total de evaluaciones requeridas (1 < t ≤ n)."
         assert args.clear_file is not None, "Especifica el nombre del archivo con el documento claro."
 
+        password = getpass("Contraseña: ")
         p = Polynomial(args.pair_file)
-        p.encrypt(args.clear_file, args.shares, args.minimum, getpass("Contraseña: "))
+        p.write_pairs(args.shares, args.minimum, password)
+        p.encrypt_file(args.clear_file, password) 
 
     elif args.option == 'd':
         assert args.pair_file is not None, "Especifica el nombre del archivo con al menos t de las n evaluaciones del polinomio."
