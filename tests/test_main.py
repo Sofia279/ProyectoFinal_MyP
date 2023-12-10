@@ -1,9 +1,12 @@
 import unittest
-import tempfile
+import os #
+import tempfile#
 from unittest.mock import patch
 from io import StringIO
 from main import parse_args
 from password import derive_key
+from polynomial import encrypt_file
+from cryptography.fernet import Fernet #
 
 class MainTestCase(unittest.TestCase):
     def test_parse_args_c_encrypt(self):
@@ -47,6 +50,26 @@ class MainTestCase(unittest.TestCase):
         actual_key = derive_key(password)
         # Verificación de la igualdad
         self.assertEqual(actual_key, expected_key)
+
+    def test_encrypt_file(self):
+            # Crear un archivo temporal para usar como clear_file
+            with tempfile.NamedTemporaryFile(delete=False) as clear_temp_file:
+                clear_temp_file_name = clear_temp_file.name
+            try:
+                # Escribir datos en el archivo temporal
+                clear_temp_file.write(b"Datos de prueba")
+                clear_temp_file.flush()
+                # Crear una instancia de Polynomial
+                your_instance = Polynomial(pair_file='pairs.txt')
+                # Llamar a la función encrypt_file
+                your_instance.encrypt_file(clear_temp_file_name, password='test_password')
+                # Verificar que el archivo cifrado ('.aes') se haya creado correctamente
+                encrypted_file_path = clear_temp_file_name + '.aes'
+                self.assertTrue(os.path.exists(encrypted_file_path))
+            finally:
+                # Eliminar los archivos temporales después de las pruebas
+                os.remove(clear_temp_file_name)
+                os.remove(encrypted_file_path)
 
             
 if __name__ == '__main__':
