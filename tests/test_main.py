@@ -4,6 +4,7 @@ from unittest.mock import patch
 from io import StringIO
 from main import parse_args
 from password import derive_key
+from polynomial import encrypt
 
 class MainTestCase(unittest.TestCase):
     def test_parse_args_c_encrypt(self):
@@ -48,5 +49,25 @@ class MainTestCase(unittest.TestCase):
         # Verificación de la igualdad
         self.assertEqual(actual_key, expected_key)
 
+def test_encrypt(self):
+        # Crear un archivo temporal para usar como clear_file
+        with tempfile.NamedTemporaryFile(delete=False) as clear_temp_file:
+            clear_temp_file_name = clear_temp_file.name
+        try:
+            # Crear una instancia de Polynomial
+            your_instance = Polynomial(pair_file='pairs.txt')
+            # Llamar a la función encrypt
+            your_instance.encrypt(clear_temp_file_name, shares=2, minimum=1, password='test_password')
+            # Verificar que el archivo cifrado ('.aes') se haya creado correctamente
+            encrypted_file_path = clear_temp_file_name + '.aes'
+            self.assertTrue(os.path.exists(encrypted_file_path))
+            # Verificar que el archivo de pares ('example_pairs.txt') se haya creado correctamente
+            self.assertTrue(os.path.exists('pairs.txt'))
+        finally:
+            # Eliminar los archivos temporales después de las pruebas
+            os.remove(clear_temp_file_name)
+            os.remove(encrypted_file_path)
+            os.remove('pairs.txt')
+            
 if __name__ == '__main__':
     unittest.main()
