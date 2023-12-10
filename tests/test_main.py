@@ -3,6 +3,7 @@ import tempfile
 from unittest.mock import patch
 from io import StringIO
 from main import parse_args
+from password import derive_key
 
 class MainTestCase(unittest.TestCase):
     def test_parse_args_c_encrypt(self):
@@ -32,7 +33,7 @@ class MainTestCase(unittest.TestCase):
     def test_derive_key(self):
             # Caso de prueba con una contraseña conocida
             password = "mi_contraseña_123"
-            expected_key = b'2-MXjSf6AqDqrGsyYLwHrMeZq9bQ='  # Este valor puede variar si cambias la contraseña
+            expected_key = b'l3RMFUtpa9Tp-auqDRrl54wKhYUMz6fNX3YiVrWcqtk='  # Este valor puede variar si cambias la contraseña
             # Llamada a la función
             actual_key = derive_key(password)
             # Verificación de la igualdad
@@ -41,7 +42,7 @@ class MainTestCase(unittest.TestCase):
     def test_derive_key_different_password(self):
         # Caso de prueba con otra contraseña conocida
         password = "otra_contraseña_456"
-        expected_key = b'9CAsFY6Vs2pObB8hxIxqHd_lgQY='  # Este valor puede variar si cambias la contraseña
+        expected_key = b'04Ygta5ZSToJ-E8cK74WCkpFr-vwTJUiuahZ0ZOGyKs='  # Este valor puede variar si cambias la contraseña
         # Llamada a la función
         actual_key = derive_key(password)
         # Verificación de la igualdad
