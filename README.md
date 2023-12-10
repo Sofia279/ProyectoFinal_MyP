@@ -30,6 +30,7 @@ Un ejemplo de como compilarlo es el siguiente:
 ```bash
 python main.py d -p pairs.txt -f foobar.aes
 ```
+NOTA IMPORTANTE: En el repositorio no se agrego un ningun archivo de prueba para cifrar mas que el que se encuentra en la carpeta tests [pruebaTest.txt].
 ## Compilación de tests
 Se compilara con el comando "python -m unittest". Lo que hará este comando será compilar todas las pruebas que encunetre en la carpeta tests. Además, se puede compilar estando en la carpeta principal ProyectoFinal_MyP.
 ```bash
