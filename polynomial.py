@@ -58,8 +58,17 @@ class Polynomial:
 
     def get_password(self) -> str:
         '''
-        Función que utiliza la interpolación de Lagrange para reconstruir el polinomio original a partir de los puntos
-        almacenados en el archivo y evalúa el polinomio en x=0 para obtener la contraseña original.
+        Reconstruye la contraseña original utilizando la interpolación de Lagrange
+        a partir de los puntos almacenados en el archivo y evalúa el polinomio en x=0.
+        Parámetros:
+        - Ninguno explícito, pero depende del atributo `pair_file` de la instancia.
+        Resultado:
+        - Una cadena de texto que representa la contraseña original.
+        Precondiciones:
+        - El archivo especificado por `pair_file` debe contener pares de puntos (x, y)
+          que serán utilizados para la interpolación de Lagrange.
+        Postcondiciones:
+        - Ninguna explícita.
         '''
         with open(self.pair_file, 'r') as file:
             pairs = [(int(x), int(y))
@@ -76,9 +85,17 @@ class Polynomial:
 
     def encrypt_file(self, file: str, password: str) -> None:
         '''
-        Funcion que toma un archivo de entrada, una contraseña y realiza la encriptación 
-        del archivo utilizando el algoritmo de cifrado simétrico Fernet. 
-        return none.
+        Encripta un archivo utilizando el algoritmo de cifrado simétrico Fernet.
+        Parámetros:
+        - file: Ruta al archivo de entrada que se va a encriptar.
+        - password: Contraseña utilizada para derivar la clave de encriptación.
+        Resultado:
+        - Ninguno.
+        Precondiciones:
+        - El archivo especificado por `file` debe existir.
+        Postcondiciones:
+        - Un nuevo archivo con extensión '.aes' se crea en la misma ubicación que el archivo de entrada,
+          conteniendo el contenido encriptado.
         '''
         clear_file = pathlib.Path(file)
         assert clear_file.exists(), "El archivo proporcionado no existe."
@@ -88,9 +105,17 @@ class Polynomial:
 
     def decrypt_file(self, file: str, password: str) -> None:
         '''
-         Desencripta un archivo que fue encriptado usando encriptación simétrica Fernet y 
-         escribe el contenido desencriptado en un nuevo archivo. 
-         return none.
+        Desencripta un archivo que fue encriptado utilizando encriptación simétrica Fernet.
+        Parámetros:
+        - file: Ruta al archivo encriptado que se va a desencriptar.
+        - password: Contraseña utilizada para derivar la clave de encriptación.
+        Resultado:
+        - Ninguno.
+        Precondiciones:
+        - El archivo especificado por `file` debe existir.
+        Postcondiciones:
+        - Un nuevo archivo con extensión '.txt' se crea en la misma ubicación que el archivo encriptado,
+          conteniendo el contenido desencriptado.
         '''
         encrypted_file = pathlib.Path(file)
         assert encrypted_file.exists(), "El archivo proporcionado no existe."
