@@ -22,3 +22,6 @@ pip install cryptography
 
 ## Compilación de tests
 Se compilara con el comando "python -m unittest". Lo que hará este comando será compilar todas las pruebas que encunetre en la carpeta tests. Además, se puede compilar estando en la carpeta principal ProyectoFinal_MyP.
+
+## Licencia
+El proyecto se distribuirá bajo la Licencia MIT. La cual proporciona libertad significativa a los usuarios al permitirles utilizar, modificar y distribuir el software sin restricciones excesivas. Se otorga de forma gratuita y solo requiere que se incluyan los avisos de copyright y la exención de responsabilidad en las copias o derivados del software. Esta licencia fomenta la colaboración y el uso compartido, permitiendo tanto el uso comercial como no comercial del software, y garantiza una flexibilidad esencial para la comunidad de desarrollo.
